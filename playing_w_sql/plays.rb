@@ -25,6 +25,32 @@ class Play
         
         data.map { |datum| Play.new(datum) }  ## creates a new instance of Play for each row found in the db
     end
+
+    def self.find_by_title(title)
+        PlayDBConnection.instance.execute(<<-SQL, title)
+            SELECT 
+                *
+            FROM
+                plays
+            WHERE
+                title = ?
+        SQL
+    end
+
+    def self.find_by_playwright(name)
+        PlayDBConnection.instance.execute(<<-SQL, name)
+            SELECT
+                *
+            FROM
+                plays
+            JOIN
+                playwrights
+            ON
+                plays.playwright_id = playwrights.id
+            WHERE
+                name = ?
+        SQL
+    end
   
     def initialize(options)
     ## create a new instance of the play class
@@ -43,7 +69,7 @@ class Play
                 plays (title, year, playwright_id)
             VALUES
                 (?, ?, ?) -- references the vars passed in order 
-            SQL
+        SQL
             ## SQL is just a var here but using the language name tells the ide
                 # how to provide proper syntax highlighting
         # what is a heredoc?
@@ -63,6 +89,6 @@ class Play
                 title = ?, year = ?, playwright_id = ?
             WHERE
                 id = ?
-            SQL
+        SQL
     end
 end 
