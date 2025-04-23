@@ -50,4 +50,4 @@ def reconstruct_path(goal_node: Dict) -> List[Tuple[int, int]]:
 
     return path[::-1] #Reverse path to get start to goal
 
-module.exports(calculate_heuristic, get_valid_neighbors, reconstruct_path)
+# module.exports(calculate_heuristic, get_valid_neighbors, reconstruct_path)
